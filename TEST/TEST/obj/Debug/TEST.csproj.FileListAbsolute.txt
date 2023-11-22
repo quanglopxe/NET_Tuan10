@@ -1,0 +1,9 @@
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\bin\Debug\TEST.exe.config
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\bin\Debug\TEST.exe
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\bin\Debug\TEST.pdb
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.csprojResolveAssemblyReference.cache
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.Form1.resources
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.Properties.Resources.resources
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.csproj.GenerateResource.Cache
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.exe
+E:\LuuDuLieuSinhVien\tuan10_NET\TEST\TEST\obj\Debug\TEST.pdb
