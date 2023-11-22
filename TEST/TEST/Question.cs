@@ -6,16 +6,23 @@ using System.Threading.Tasks;
 
 namespace TEST
 {
-    class Question
+    public class Question
     {
-        public string questionText { get; set; }
-        public string answer { get; set; }
-        public List<string> answers { get; set; }
-        public Question(string QuestionText, string Answer, List<string> Answers)
+        public string QuestionText { get; set; }
+        public string AnswerA { get; set; }
+        public string AnswerB { get; set; }
+        public string AnswerC { get; set; }
+        public string AnswerD { get; set; }
+        public string CorrectAnswer { get; set; }
+
+        public Question(string questionText, string answerA, string answerB, string answerC, string answerD, string correctAnswer)
         {
-            questionText = QuestionText;
-            answer = Answer;
-            answers = Answers;
+            QuestionText = questionText;
+            AnswerA = answerA;
+            AnswerB = answerB;
+            AnswerC = answerC;
+            AnswerD = answerD;
+            CorrectAnswer = correctAnswer;
         }
     }
 }

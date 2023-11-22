@@ -34,6 +34,7 @@
             this.rbtn_B = new System.Windows.Forms.RadioButton();
             this.rbtn_C = new System.Windows.Forms.RadioButton();
             this.rbtn_D = new System.Windows.Forms.RadioButton();
+            this.btn_Result = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lb_Question
@@ -100,11 +101,22 @@
             this.rbtn_D.Text = "D. 4";
             this.rbtn_D.UseVisualStyleBackColor = true;
             // 
+            // btn_Result
+            // 
+            this.btn_Result.Location = new System.Drawing.Point(328, 359);
+            this.btn_Result.Name = "btn_Result";
+            this.btn_Result.Size = new System.Drawing.Size(102, 43);
+            this.btn_Result.TabIndex = 3;
+            this.btn_Result.Text = "Xem điểm";
+            this.btn_Result.UseVisualStyleBackColor = true;
+            this.btn_Result.Click += new System.EventHandler(this.btn_Result_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(456, 472);
+            this.Controls.Add(this.btn_Result);
             this.Controls.Add(this.btn_Next);
             this.Controls.Add(this.rbtn_D);
             this.Controls.Add(this.rbtn_C);
@@ -112,7 +124,7 @@
             this.Controls.Add(this.rbtn_A);
             this.Controls.Add(this.lb_Question);
             this.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -128,6 +140,7 @@
         private System.Windows.Forms.RadioButton rbtn_B;
         private System.Windows.Forms.RadioButton rbtn_C;
         private System.Windows.Forms.RadioButton rbtn_D;
+        private System.Windows.Forms.Button btn_Result;
     }
 }
 

@@ -7,95 +7,83 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace TEST
 {
     public partial class Form1 : Form
     {
+        string conStr = "Data Source=A209PC38;Initial Catalog=TEST;Integrated Security=True";
         List<Question> listQuestion;
         List<RadioButton> listAnswer;
         private int questionIndex;
+
         public Form1()
         {
             InitializeComponent();
-            InitializeAnswerRadioButtons();
-            InitalizeQuestion();
+            SqlConnection conn = new SqlConnection(conStr);
+            SqlCommand cmd = new SqlCommand();
+            SqlDataReader rdr;
+
+            listQuestion = new List<Question>();
+            questionIndex = 0;
+            LoadQuestions();
             ShowCurrentQuestion();
         }
-        private void InitalizeQuestion()
+
+        private void LoadQuestions()
         {
-            listQuestion = new List<Question>
+            try
             {
-                new Question("Câu 1: 1+2= ?", "C. 3", new List<string> {"A. 1","B. 2","C. 3","D. 4"}),
-                new Question("Câu 2: Bạn tên là ?", "B. Quang", new List<string> {"A. Tèo","B. Quang","C. Bi","D. Tú"}),
-                new Question("Câu 3: Bạn học trường ?", "D. HUIT", new List<string> {"A. UEH","B. UEF","C. HUFLIT","D. HUIT"}),
-            };
-            questionIndex = 0;
-        }
-        private void InitializeAnswerRadioButtons()
-        {
-            listAnswer = new List<RadioButton>
+                using (SqlConnection conn = new SqlConnection(conStr))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = conn;
+                    command.CommandText = "SELECT * FROM Question";
+
+                    using (SqlDataReader rdr = command.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            string questionText = rdr["QuestionText"].ToString();
+                            string answerA = rdr["AnswerA"].ToString();
+                            string answerB = rdr["AnswerB"].ToString();
+                            string answerC = rdr["AnswerC"].ToString();
+                            string answerD = rdr["AnswerD"].ToString();
+                            string correctAnswer = rdr["CorrectAnswer"].ToString();
+
+                            Question question = new Question(questionText, answerA, answerB, answerC, answerD, correctAnswer);
+                            listQuestion.Add(question);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                rbtn_A,
-                rbtn_B,
-                rbtn_C,
-                rbtn_D
-            };
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
+
         private void ShowCurrentQuestion()
         {
             if (questionIndex < listQuestion.Count)
             {
+                btn_Result.Enabled = false;
                 Question currentQuestion = listQuestion[questionIndex];
-                lb_Question.Text = currentQuestion.questionText;
-                UpdateAnswerRadioButtons(currentQuestion.answers);
+                lb_Question.Text = currentQuestion.QuestionText;
+                rbtn_A.Text = currentQuestion.AnswerA;
+                rbtn_B.Text = currentQuestion.AnswerB;
+                rbtn_C.Text = currentQuestion.AnswerC;
+                rbtn_D.Text = currentQuestion.AnswerD;
             }
             else
             {
                 MessageBox.Show("Hoàn thành kiểm tra!");
+                btn_Result.Enabled = true;
             }
         }
-        private void ClearAnswerRadioButtons()
-        {
-            rbtn_A.Checked = false;
-            rbtn_B.Checked = false;
-            rbtn_C.Checked = false;
-            rbtn_D.Checked = false;
-        }
-        private void UpdateAnswerRadioButtons(List<string> answers)
-        {
-            if (listAnswer == null || answers == null || listAnswer.Count != answers.Count)
-            {
-                MessageBox.Show("Không có đáp án hoặc số lượng câu trả lời không khớp.");
-                return;
-            }
 
-            for (int i = 0; i < answers.Count; i++)
-            {
-                listAnswer[i].Text = answers[i];
-            }
-        }
-        private void btn_Next_Click(object sender, EventArgs e)
-        {
-            if (questionIndex < listQuestion.Count)
-            {
-                Question currentQuestion = listQuestion[questionIndex];
-                string userAnswer = GetSelectedAnswer();
-
-                if (userAnswer == currentQuestion.answer)
-                {
-                    MessageBox.Show("Bạn đã làm đúng :)");
-                    questionIndex++;
-                    ShowCurrentQuestion();
-                }
-                else
-                {
-                    MessageBox.Show("Câu trả lời sai. Bạn bị trừ điểm :(");
-                    questionIndex++;
-                    ShowCurrentQuestion();
-                }
-            }
-        }
         private string GetSelectedAnswer()
         {
             if (rbtn_A.Checked)
@@ -104,8 +92,47 @@ namespace TEST
                 return rbtn_B.Text;
             if (rbtn_C.Checked)
                 return rbtn_C.Text;
-            else
+            if (rbtn_D.Checked)
                 return rbtn_D.Text;
+
+            return string.Empty;
+        }
+
+        private void btn_Next_Click(object sender, EventArgs e)
+        {
+            if (questionIndex < listQuestion.Count)
+            {
+                Question currentQuestion = listQuestion[questionIndex];
+                string userAnswer = GetSelectedAnswer();
+
+                if (userAnswer == currentQuestion.CorrectAnswer)
+                {
+                    MessageBox.Show("Bạn đã làm đúng :)");
+                }
+                else
+                {
+                    MessageBox.Show("Bạn đã làm sai :(");
+                }
+
+                questionIndex++;
+                ShowCurrentQuestion();
+            }
+        }
+
+        private void btn_Result_Click(object sender, EventArgs e)
+        {
+            int score = 0;
+            if (questionIndex < listQuestion.Count)
+            {
+                Question currentQuestion = listQuestion[questionIndex];
+                string userAnswer = GetSelectedAnswer();
+
+                if (userAnswer == currentQuestion.CorrectAnswer)
+                {
+                    score++;
+                }
+            }
+            MessageBox.Show("Số điểm của bạn là: " + score + "/" + listQuestion.Count);
         }
     }
 }
